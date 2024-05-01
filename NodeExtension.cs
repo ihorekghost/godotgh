@@ -1,26 +1,31 @@
-using Godot;
-using System;
-using System.Runtime.CompilerServices;
-
-public static partial class NodeExtension
+namespace GH
 {
-    public static T RenameToType<T>(this T node) where T : Node
+    namespace ComponentSystem
     {
-        node.Name = typeof(T).Name;
+        using Godot;
 
-        return node;
-    }
+        public static partial class NodeExtension
+        {
+            public static T RenameToType<T>(this T node) where T : Node
+            {
+                node.Name = typeof(T).Name;
 
-    public static TComponent GetComponent<TComponent>(this Node node) where TComponent : Node {
-        return node.GetNode<TComponent>(typeof(TComponent).Name);
-    }
+                return node;
+            }
 
-    public static TComponent AddComponent<TComponent>(this Node node, TComponent component) where TComponent : Node
-    {
-        component.RenameToType();
+            public static TComponent GetComponent<TComponent>(this Node node) where TComponent : Node
+            {
+                return node.GetNode<TComponent>(typeof(TComponent).Name);
+            }
 
-        node.AddChild(component);
+            public static TComponent AddComponent<TComponent>(this Node node, TComponent component) where TComponent : Node
+            {
+                component.RenameToType();
 
-        return component;
+                node.AddChild(component);
+
+                return component;
+            }
+        }
     }
 }

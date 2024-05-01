@@ -1,31 +1,36 @@
-using Godot;
-using System;
-
-[GlobalClass]
-public partial class SceneManager : Node
+namespace GH
 {
-	[Export]
-	public Node CurrentScene = null;
-
-	public TScene SwitchScene<TScene>(TScene newScene) where TScene : Node
+	namespace SceneManager
 	{
-		//If scene is already set to newScene - return
-		if (CurrentScene == newScene) return newScene;
+        using Godot;
 
-		//Remove CurrentScene node if it exists
-		CurrentScene?.QueueFree();
+        [GlobalClass]
+        public partial class SceneManager : Node
+        {
+            [Export]
+            public Node CurrentScene = null;
 
-		//Add newScene as a child, if it's not null
-		if(newScene != null) AddChild(newScene);
+            public TScene SwitchScene<TScene>(TScene newScene) where TScene : Node
+            {
+                //If scene is already set to newScene - return
+                if (CurrentScene == newScene) return newScene;
 
-		//Set CurrentScene to newScene
-		CurrentScene = newScene;
+                //Remove CurrentScene node if it exists
+                CurrentScene?.QueueFree();
 
-		return newScene;
-	}
+                //Add newScene as a child, if it's not null
+                if (newScene != null) AddChild(newScene);
 
-	public Node SwitchScene(PackedScene newScene)
-	{
-		return SwitchScene(newScene.Instantiate());
-	}
+                //Set CurrentScene to newScene
+                CurrentScene = newScene;
+
+                return newScene;
+            }
+
+            public Node SwitchScene(PackedScene newScene)
+            {
+                return SwitchScene(newScene.Instantiate());
+            }
+        }
+    }
 }
